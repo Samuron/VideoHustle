@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "videohustle-d80dd",
+  "private_key_id": "026dd1b7d7c8787e82230ff4e0a1cc3c419fbaf0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCtnSPOdiflwquy\naFRM2y4YCnqkTo/9bzijoU7AB/0y9M40qLW1TQjIk2l9DMM89VNoHObjTvSJHSDB\n1l2mux3MV08RhiSarCQup8B79G/p/jTH5aj0AfunAZlhokRkaWhIpVFAnWxy74hd\nFWdxojjKHffq199RVlrVmsH7tk2+lNrnQt5oP0PGoORyqUBlLfFDTYAhBsaURF4h\nxzHAQKaCEmcnoUn7lj82jO0EvDm3HDa++iJcd0XWrXzN+uZbNof1XV9npmS4/PLm\nJ+TTzye5HV868dNelcg1LXtnd3X136aaJ3A+fRf7qsg+UH+F8o2WGG0+ZqyzCvgE\n5bOwSawnAgMBAAECggEBAJwuHKQCzul2MpcQG6X4FoMyChn9QrMudrlcx0cg6LoK\nV+YvTyeF4Tzuv5rq/Ee+OgYS2fHqeTlPpsQ5X446DhhhApQ1JICwEuyVpCbeQj8x\nm7Gn/FFl50jZu22FWBksac/QSEPkWkcbDIUQWDp1QLkyNHBjOlYlZRl7Wr5hxZaH\nPp3SZ9dYwCd0I5a0v/uachAWopByY1GCneAQdT8SDBmt9coK9fLQH9joILKe81KN\nCLlHIQ3LLa3VkmICyNj3aozzHEL4Dxd/rMS5PCo/knItl3MXBLi2cLAA1KFo03bG\nv99W/PXbuVSJ2oy/yMiN+1gVgvQOM6H7KjA7ALggmEECgYEA3N3r137ezanUPvVU\nVus32yclM4WmGzgGpvqIEVxkzigRRCZ0Dy3r3QOms1/0797PwWwL7zqk8Ti5sGfV\n+IXUrhUDU31dLA5pwbBEzDjx7OVAjZ5FHy6E3YdRvrd7cKPckH1XsT4Jaa6fNycu\n1+pJ7SJNzEw+0/NU4NhD7h0A0WkCgYEAyTr+P1XlIIj9KXIt7LAotZ1lcY329p7B\naLQq50iBfuudwRifFTEptA3Mqyeeq+ulY+Aj4Hg2o1z2EqP9YpIlaNIaH7B2ryQy\nf5ymbDiTJgMWofvLFTYmGcXfd/dmJBCksT4LCsvAb/9kdvTM57/3DDefOmA3nnVG\nAiSr+wXuTw8CgYBvFQolgsCKDW0bEQYPBRQ9m42BQSmOrPnjh0Nh/+cPLGWqsfBT\nJhRnPwvbUVp+PcCdljrWYddNHut9Rmv+J0kVGKpoljeDDeiwqnefgtBiBdcWotA+\n44WdaQ567gseVrt6zB+LnBjd1x5qfcF4hHQT2Nnp8zryHILG5t4bZujfaQKBgBR9\nRkAKre7XI/fhYV21Ph/n69lZHClWVtkjZy7vigfzU7fCmwgcXmOv+AQBX72fm9KE\nkwKbGu0dXQze18D+ooJ+yhwp6pvAssedmrBwPkNjkx1hNvds8Qo0xKFBdov7idlm\nONebkXeV6JPYLzj1qeD7lOHrxB4FUOCM/Vns66vvAoGAVvHZWTDZb8PX2Ek3l0dS\nHoi00ND/5CZYMTZpbss7PTwVsoUREEY0kVv8bUugymhSobqPk/c+YS70pCwSLb7y\nrFNVtN2IcJIyFjK0J+mQ/4yMRSK12NwuYelOtlmX59+8F6p6DctuTLJ90KIm445K\nNccHrC+Scgjvyt6tO0LMMCU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "videohustle-d80dd@appspot.gserviceaccount.com",
+  "client_id": "111530352546164420753",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/videohustle-d80dd%40appspot.gserviceaccount.com"
+}
