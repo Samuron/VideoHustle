@@ -1,0 +1,22 @@
+{
+  "name": "videohustle",
+  "version": "1.0.0",
+  "description": "Share YouTube and porn links",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samuron/VideoHustle.git"
+  },
+  "keywords": [
+    "YouTube"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samuron/VideoHustle/issues"
+  },
+  "homepage": "https://github.com/Samuron/VideoHustle#readme"
+}
