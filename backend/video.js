@@ -5,8 +5,7 @@ var db = firebase.database();
 var videos = db.ref("/videos");
 
 router.post('/', function (req, res) {
-    var newVideo = videos.push();
-    newVideo.set(req.body);
+    var newVideo = videos.push(req.body);
     req.body.id = newVideo.key;
     res.send(req.body);
 });
