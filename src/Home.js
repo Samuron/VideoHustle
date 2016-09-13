@@ -23,13 +23,16 @@ const Home = React.createClass({
 
   shareVideo(e) {
     e.preventDefault();
-    console.log( 'share video', e );
+    this.videosRef.push({ link: this.state.videoLink });
+    this.setState({
+      videoLink: ''
+    });
   },
 
   componentDidMount() {
-    const videosRef = firebase.database().ref('/videos');
+    this.videosRef = firebase.database().ref('/videos');
 
-    this.bindAsArray(videosRef, 'videos')
+    this.bindAsArray(this.videosRef, 'videos')
   },
 
   render() {
@@ -40,7 +43,7 @@ const Home = React.createClass({
         <form onSubmit={ e => this.shareVideo(e) }>
           <input type="text"
                  placeholder="insert link"
-                 onChange={ e => this.setValue( 'videoLink', e.target.values)} />
+                 onChange={ e => this.setValue( 'videoLink', e.target.value)} />
           <button type="submit">Submit</button>
         </form>
 
