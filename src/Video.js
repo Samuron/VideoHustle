@@ -27,7 +27,15 @@ const Video = React.createClass({
       <div>
         <h3>Loading content for key: {this.state.key}</h3>
         <div>
-          {video ? <span>YouTube Link:  {video.link}</span> : null }
+          { video ?
+            (
+              <iframe id='ytplayer'
+                      type='text/html'
+                      width='640'
+                      height='390'
+                      src={video.link}
+                      frameBorder='0' />
+            ) : null }
         </div>
       </div>
     )
