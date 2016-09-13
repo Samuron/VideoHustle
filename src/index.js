@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
+
 import App from './App';
 import Video from './Video';
-
-import { Router, Route, hashHistory } from 'react-router'
+import Home from './Home';
 
 const Navigation = (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <Route path="/video/:key" component={Video}/>
+      <IndexRoute component={Home} />
+      <Route path="/video/:key" component={Video} />
     </Route>
   </Router>
 );

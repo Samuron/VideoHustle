@@ -8,22 +8,28 @@ const Video = React.createClass({
 
   getInitialState() {
     return {
-      videos: []
+      key: this.props.params.key,
+      video: null
     };
   },
 
   componentDidMount() {
-    // TODO: get video by key from URL params
-    const videosRef = firebase.database().ref('/videos');
-
-    this.bindAsArray(videosRef, 'videos')
+    const videoRef = firebase.database().ref( `/videos/${this.state.key}`);
+    this.bindAsObject(videoRef, 'video')
   },
 
   render() {
-    // const { videos } = this.state;
-    // console.log( 'render video', videos );
+    const { video } = this.state;
+
+    console.log( 'video:', video );
+
     return (
-      <div>Single video</div>
+      <div>
+        <h3>Loading content for key: {this.state.key}</h3>
+        <div>
+          {video ? <span>YouTube Link:  {video.link}</span> : null }
+        </div>
+      </div>
     )
   }
 });
