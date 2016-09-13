@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import ReactFireMixin from 'reactfire';
+import Chat from './Chat';
 
 const Video = React.createClass({
 
@@ -21,7 +22,7 @@ const Video = React.createClass({
   render() {
     const { video } = this.state;
 
-    console.log( 'video:', video );
+    // console.log( 'key:', this.state.key );
 
     return (
       <div>
@@ -37,6 +38,8 @@ const Video = React.createClass({
                       frameBorder='0' />
             ) : null }
         </div>
+        <h3>Chat</h3>
+        <Chat videoKey={this.state.key} />
       </div>
     )
   }

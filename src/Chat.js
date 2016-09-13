@@ -10,7 +10,8 @@ const Chat = React.createClass({
     getInitialState() {
         return {
             messages: [],
-            message: ''
+            message: '',
+            chatRef: firebase.database().ref(`/videos/${this.props.videoKey}/chat`)
         };
     },
 
@@ -21,13 +22,11 @@ const Chat = React.createClass({
     },
 
     componentDidMount() {
-        const chatRef = firebase.database().ref(`/chats/`);
-        this.bindAsArray(chatRef, 'messages')
+        this.bindAsArray(this.state.chatRef, 'messages')
     },
 
     postMessage(e) {
-        const chatRef = firebase.database().ref(`/chats/`);
-        chatRef.push({ time: new Date().toDateString(), message: this.state.message, name: "Someone" });
+        this.state.chatRef.push({ time: new Date().toDateString(), message: this.state.message, name: "Someone" });
     },
 
     render() {
