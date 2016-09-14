@@ -14,14 +14,8 @@ const Chat = React.createClass({
     return {
       messages: [],
       message: '',
-      chatRef: firebase.database().ref(`/videos/${this.props.videoKey}/chat`)
+      chatRef: firebase.database().ref(`/chats/${this.props.videoKey}`)
     };
-  },
-
-  setValue(propName, value) {
-    this.setState({
-      [propName]: value
-    })
   },
 
   componentDidMount() {
@@ -45,11 +39,11 @@ const Chat = React.createClass({
           <input
             type="text"
             placeholder="add message"
-            onChange={ e => this.setValue('message', e.target.value) } />
+            onChange={ e => this.setState({ message: e.target.value }) }/>
           <button type="submit">Submit</button>
         </form>
         <ul>
-          {this.state.messages.map((message, index) => <ChatMessage key={index} {...message} /> ) }
+          {this.state.messages.map((message, index) => <ChatMessage key={index} {...message} />) }
         </ul>
       </div>
     )
