@@ -21,22 +21,39 @@ const Video = React.createClass({
     this.bindAsObject(videoRef, 'video');
   },
 
-  playerReady(event) {
+  componentDidUpdate(pastProps, pastState) {
+    console.log('component updated');
+    console.log('prevState:', pastState.video);
+    console.log('state:', this.state.video);
+    if (pastState.video.state != this.state.video.state) {
+      console.log('handling update');
+      this.handleVideoState();
+    }
+  },
+
+  handleVideoState() {
+    var player = this.state.player;
     var time = this.state.video.time;
     var state = this.state.video.state;
     console.log('time:', time);
     console.log('state:', state);
+
     if (time)
-      event.target.seekTo(time, true);
+      player.seekTo(time, true);
 
     if (state === 'play') {
       console.log('start playing');
-      event.target.playVideo();
+      player.playVideo();
     }
     else {
       console.log('pause playing');
-      event.target.pauseVideo();
+      player.pauseVideo();
     }
+  },
+
+  playerReady(event) {
+    this.setState({ player: event.target });
+    this.handleVideoState();
   },
 
   playerPlay(event) {
@@ -45,7 +62,6 @@ const Video = React.createClass({
       state: 'play',
       time: event.target.getCurrentTime()
     };
-    console.log(updated);
     this.state.videoRef.update(updated);
   },
 
