@@ -22,33 +22,22 @@ const Video = React.createClass({
   },
 
   componentDidUpdate(pastProps, pastState) {
-    console.log('component updated');
-    console.log('prevState:', pastState.video);
-    console.log('state:', this.state.video);
-    if (pastState.video.state != this.state.video.state) {
-      console.log('handling update');
+    if (pastState.video.state != this.state.video.state)
       this.handleVideoState();
-    }
   },
 
   handleVideoState() {
     var player = this.state.player;
     var time = this.state.video.time;
     var state = this.state.video.state;
-    console.log('time:', time);
-    console.log('state:', state);
 
     if (time)
-      player.seekTo(time, true);
-
-    if (state === 'play') {
-      console.log('start playing');
+      player.seekTo(time);
+    if (state == 'play')
       player.playVideo();
-    }
-    else {
-      console.log('pause playing');
+    else
       player.pauseVideo();
-    }
+
   },
 
   playerReady(event) {
@@ -57,21 +46,25 @@ const Video = React.createClass({
   },
 
   playerPlay(event) {
-    console.log('player play command');
-    var updated = {
-      state: 'play',
-      time: event.target.getCurrentTime()
-    };
-    this.state.videoRef.update(updated);
+    this.state.videoRef.update({ state: 'play', });
+    this.updateTime();
+  },
+
+  updateTime() {
+    if (this.state.video.state == 'play') {
+      var updated = {
+        time: this.state.player.getCurrentTime()
+      };
+      this.state.videoRef.update(updated);
+    }
+    setTimeout(this.updateTime, 1000);
   },
 
   playerPause(event) {
-    console.log('player pause command');
     var updated = {
       state: 'pause',
-      time: event.target.getCurrentTime()
+      time: this.state.player.getCurrentTime()
     };
-    console.log(updated);
     this.state.videoRef.update(updated);
   },
 
