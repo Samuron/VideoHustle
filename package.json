@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "webpack-dev-server --content-base ./ --port 3000",
     "serve": "webpack-dev-server --content-base ./ --port 3000"
   },
   "repository": {
@@ -22,9 +22,6 @@
   },
   "homepage": "https://github.com/Samuron/VideoHustle#readme",
   "devDependencies": {
-    "body-parser": "^1.15.2",
-    "express": "^4.14.0",
-    "firebase": "^3.3.2",
     "babel-core": "^6.0.20",
     "babel-eslint": "^4.1.3",
     "babel-loader": "^6.0.1",
