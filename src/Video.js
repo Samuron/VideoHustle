@@ -85,7 +85,11 @@ const Video = React.createClass({
           { video ?
             (
               <YouTube
-                videoId = {video.link.substr(video.link.lastIndexOf('/') + 1) }
+                videoId = { video.link.includes('?v=') ? (
+                  video.link.split('?v=')[1].slice(0, 11)
+                ) : (
+                  video.link.substr(video.link.lastIndexOf('/') + 1)
+                ) }
                 opts = {opts}
                 onReady ={this.playerReady}
                 onPlay ={this.playerPlay}

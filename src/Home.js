@@ -23,7 +23,7 @@ const Home = React.createClass({
 
   shareVideo(e) {
     e.preventDefault();
-    this.videosRef.push({ link: this.state.videoLink });
+    this.videosRef.push({ link: this.state.videoLink, state: 'play', time: 0.0 });
     this.setState({
       videoLink: ''
     });
@@ -43,7 +43,8 @@ const Home = React.createClass({
         <form onSubmit={ e => this.shareVideo(e) }>
           <input type="text"
                  placeholder="insert link"
-                 onChange={ e => this.setValue( 'videoLink', e.target.value)} />
+                 onChange={ e => this.setValue( 'videoLink', e.target.value)} 
+                 value={ this.state.videoLink } />
           <button type="submit">Submit</button>
         </form>
 

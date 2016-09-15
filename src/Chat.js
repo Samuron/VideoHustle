@@ -30,16 +30,18 @@ const Chat = React.createClass({
       message: this.state.message,
       name: "Someone"
     });
+    this.setState({ message: '' });
   },
 
   render() {
     return (
       <div>
-        <form onSubmit={ e => this.postMessage(e) }>
+        <form onSubmit={ e => {this.postMessage(e)} }>
           <input
             type="text"
             placeholder="add message"
-            onChange={ e => this.setState({ message: e.target.value }) }/>
+            onChange={ e => this.setState({ message: e.target.value }) }
+            value={ this.state.message }/>
           <button type="submit">Submit</button>
         </form>
         <ul>
