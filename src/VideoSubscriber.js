@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import YouTube from 'react-youtube';
+import YouTube from './VideoContent';
 import Chat from './Chat';
 
 class VideoBroadcaster extends Component {
@@ -60,7 +60,7 @@ class VideoBroadcaster extends Component {
         { video.link ?
           (
             <YouTube
-              videoId={video.link.substr(video.link.lastIndexOf('/') + 1) }
+              link={video.link}
               opts={opts}
               onReady={e => this.onReady(e)}
             />
