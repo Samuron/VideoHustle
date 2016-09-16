@@ -1,22 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import YouTube from 'react-youtube';
 
-export default class VideoContent extends React.Component {
-    constructor(props) {
-        var {link, ...other} = props;
-        var videoId = props.link.includes('?v=') ? 
-                  props.link.split('?v=')[1].slice(0, 11)           : 
-                  props.link.substr(props.link.lastIndexOf('/') + 1)
-        var withId = {
-            videoId,
-            ...other
-        };
-        super(withId);
-    }
-
+export default class VideoContent extends Component {
     render() {
+        const { link, opts, onReady, onStateChange } = this.props;
+        const videoId = link.includes('?v=')
+          ? link.split('?v=')[1].slice(0, 11)
+          : this.props.link.substr(props.link.lastIndexOf('/') + 1);
+
         return (
             <Card>
                 <CardHeader
@@ -24,7 +17,12 @@ export default class VideoContent extends React.Component {
                     subtitle="Subtitle"
                     />
                 <CardMedia>
-                    <YouTube {...this.props}/>
+                    <YouTube
+                      link={videoId}
+                      opts={opts}
+                      onReady={onReady}
+                      onReady={onStateChange}
+                    />
                 </CardMedia>
                 <CardActions>
                     <FlatButton label="Action1" />
