@@ -9,14 +9,21 @@ import Login from './Login';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+const checkToken = (nextState, replace) => {
+  const user = window.localStorage.getItem('user');
+  if (!user) {
+    replace('/login')
+  }
+};
+
 const Navigation = (
   <MuiThemeProvider>
     <Router history={hashHistory}>
-      <Route path="/" component={App}>
+      <Route path="/" component={App} onEnter={checkToken}>
         <IndexRoute component={Home} />
         <Route path="/video/:key" component={Video} />
-        <Route path="/login" component={Login} />
       </Route>
+      <Route path="/login" component={Login} />
     </Router>
   </MuiThemeProvider>
 );
