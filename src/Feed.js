@@ -29,7 +29,7 @@ const Feed = React.createClass({
   getInitialState() {
     var user = firebase.auth().currentUser;
     return {
-      videos_count: 10,
+      videosCount: 1,
       userRef: firebase.database().ref(`/users/${user.uid}`),
       videos: [],
       user: user
@@ -37,7 +37,35 @@ const Feed = React.createClass({
   },
 
   componentDidMount() {
-    this.bindAsArray(this.state.userRef.child('videos').limitToFirst(this.state.videos_count), 'videos')
+    this.state.userRef.child('videos').limitToFirst(this.state.videosCount).once('value', snapshot => {
+      var newVideos = [];
+      var s = snapshot.val();
+      for(var index in s) { 
+        newVideos.push(s[index].id);
+      }
+      this.setState({ videos: newVideos });
+    });
+    window.onscroll = e => this.handleScroll(e);    
+  },
+
+  handleScroll(e) {
+    var scroll = document.body;
+
+    if(scroll.clientHeight + scroll.scrollTop >= scroll.scrollHeight) {
+      this.state.userRef.child('videos')
+        .orderByKey()
+        .startAt(this.state.videos[this.state.videos.length - 1])
+        .limitToFirst(this.state.videosCount + 1)
+        .once('value', snapshot => {
+          console.log(snapshot.val());
+          var newVideos = [];
+          var s = snapshot.val();
+          for(var index in s) { 
+            newVideos.push(s[index].id);
+        }
+      this.setState({ videos: this.state.videos.concat(newVideos.slice(1)) });
+    });
+    }
   },
 
   postVideo() {
