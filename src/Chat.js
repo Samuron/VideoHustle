@@ -1,11 +1,25 @@
 import React from 'react';
 import firebase from 'firebase';
 import ReactFireMixin from 'reactfire';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 
 const ChatMessage = ({ time, name, message }) => {
-  return <li>{time} {name}: {message}</li>
+  var secondaryText = <p><span style={{color: darkBlack}}>{time}</span> -- {message}</p>;
+  return (
+    <div>
+    <ListItem primaryText={name} secondaryText={secondaryText}/>
+    <Divider inset={true} />
+    </div>
+    );
 };
 
+const style = {
+  width:500,
+  height:300,
+  overflow:'scroll'
+}
 const Chat = React.createClass({
 
   mixins: [ReactFireMixin],
@@ -36,7 +50,7 @@ const Chat = React.createClass({
   render() {
     return (
       <div>
-        <form onSubmit={ e => {this.postMessage(e)} }>
+        <form onSubmit={ e => { this.postMessage(e) } }>
           <input
             type="text"
             placeholder="add message"
@@ -44,9 +58,9 @@ const Chat = React.createClass({
             value={ this.state.message }/>
           <button type="submit">Submit</button>
         </form>
-        <ul>
+        <List style={style}>
           {this.state.messages.map((message, index) => <ChatMessage key={index} {...message} />) }
-        </ul>
+        </List>
       </div>
     )
   }

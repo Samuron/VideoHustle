@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 
 export default class VideoContent extends Component {
     render() {
+        
         const { link, opts, onReady, onStateChange } = this.props;
         const videoId = link.includes('?v=')
           ? link.split('?v=')[1].slice(0, 11)
