@@ -14,7 +14,6 @@ class VideoBroadcaster extends Component {
 
   componentDidMount() {
     this.state.broadcastRef.once('value', snapshot => {
-      console.log(snapshot.val());
       this.setState({
         video: snapshot.val()
       });
@@ -63,7 +62,7 @@ render() {
   return (
     <div>
       <BroadcastPlayer
-        videoId={video.videoId}
+        video={video}
         broadcastId={this.props.broadcastId}
         opts={opts}
         onReady={e => this.onReady(e) }

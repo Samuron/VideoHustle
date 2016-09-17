@@ -8,24 +8,23 @@ import Toggle from 'material-ui/Toggle';
 
 export default class BroadcastPlayer extends Component {
     render() {
-        const { videoId, broadcastId, opts, onReady, onStateChange } = this.props;
+        const { video, broadcastId, opts, onReady, onStateChange } = this.props;
         return (
             <Card>
                 <CardHeader
-                    title="URL Avatar"
-                    subtitle="Subtitle"
-                    actAsExpander={true}
-                    showExpandableButton={true}
+                    title={'Broadcast by ' + video.broadcaster}
+                    subtitle={video.description}
+                    avatar={video.photoUrl}
                     />
                 <CardMedia>
                     <YouTube
-                        videoId={videoId}
+                        videoId={video.videoId}
                         opts={opts}
                         onReady={onReady}
                         onStateChange={onStateChange}
                         />
                 </CardMedia>
-                <Chat videoKey={broadcastId}/>
+                <Chat broadcastId={broadcastId}/>
             </Card>
         )
     }

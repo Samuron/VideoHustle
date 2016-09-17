@@ -40,7 +40,6 @@ class VideoBroadcaster extends Component {
 
   render() {
     const { video } = this.state;
-
     const opts = {
       width: '500',
       height: '300',
@@ -54,7 +53,7 @@ class VideoBroadcaster extends Component {
     return (
       <div>
         <BroadcastPlayer
-          videoId={video.videoId}
+          video={video}
           broadcastId={this.props.broadcastId}
           opts={opts}
           onReady={e => this.onReady(e) }

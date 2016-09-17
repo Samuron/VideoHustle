@@ -60,7 +60,7 @@ const FeedVideo = React.createClass({
             time: firebase.database.ServerValue.TIMESTAMP,
             message: this.refs.messageText.getValue(),
             name: this.state.author,
-            photoUrl: this.state.photoUrl
+            photoUrl: this.state.photoUrl,
         });
         this.setState({ message: '', open: true });
     },
@@ -70,7 +70,10 @@ const FeedVideo = React.createClass({
         var inserted = brRef.push({
             videoId: this.state.videoYouTubeId,
             state: 0,
-            time: 0.0
+            time: 0.0,
+            broadcaster: this.state.author,
+            photoUrl: this.state.photoUrl,
+            description: this.state.description
         });
         this.context.router.push('/broadcast/' + inserted.getKey());
     },
