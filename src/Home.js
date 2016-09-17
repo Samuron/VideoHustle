@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import { map } from 'lodash';
 import { Link } from 'react-router';
 import ReactFireMixin from 'reactfire';
+import SignOut from './SignOut'
 
 const Home = React.createClass({
 
@@ -60,6 +61,7 @@ const Home = React.createClass({
             )
           )}
         </ul>
+        <SignOut />
       </div>
     )
   }

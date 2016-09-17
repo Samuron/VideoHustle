@@ -22,11 +22,6 @@ export default class Login extends Component {
     this.googleProvider = new firebase.auth.GoogleAuthProvider();
   }
 
-  login(config) {
-    window.localStorage.setItem('user', JSON.stringify(config));
-    this.context.router.push('/');
-  }
-
   auth( providerName ) {
     const provider = this[providerName];
 
@@ -34,16 +29,7 @@ export default class Login extends Component {
       .signInWithPopup(provider)
       .then(response => {
         console.log( 'auth:', response );
-        const { displayName, email, photoURL } = response.user;
-
-        this.login({
-          credential: this.credential,
-          user: {
-            displayName,
-            email,
-            photoURL
-          }
-        })
+        this.context.router.push('/');
       })
       .catch(console.error)
   }

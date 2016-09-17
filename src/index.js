@@ -10,13 +10,6 @@ import Login from './Login';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const checkToken = (nextState, replace) => {
-  const user = window.localStorage.getItem('user');
-  if (!user) {
-    replace('/login')
-  }
-};
-
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyDKA3OrAAbhLWV-oILlook7z9orkGRO-KQ",
   authDomain: "videohustle-d80dd.firebaseapp.com",
@@ -25,6 +18,17 @@ const FIREBASE_CONFIG = {
 };
 
 firebase.initializeApp(FIREBASE_CONFIG);
+
+const checkToken = (nextState, replace, next) => {
+  firebase.auth().onAuthStateChanged( user => {
+    if ( !user ) {
+      replace('/login');
+      next();
+    } else {
+      next();
+    }
+  });
+};
 
 const Navigation = (
   <MuiThemeProvider>
