@@ -8,8 +8,8 @@ export default class VideoContent extends Component {
         const { link, opts, onReady, onStateChange } = this.props;
         const videoId = link.includes('?v=')
           ? link.split('?v=')[1].slice(0, 11)
-          : this.props.link.substr(props.link.lastIndexOf('/') + 1);
-
+          : this.props.link.substr(this.props.link.lastIndexOf('/') + 1);
+       
         return (
             <Card>
                 <CardHeader
@@ -18,10 +18,10 @@ export default class VideoContent extends Component {
                     />
                 <CardMedia>
                     <YouTube
-                      link={videoId}
+                      videoId={videoId}
                       opts={opts}
                       onReady={onReady}
-                      onReady={onStateChange}
+                      onStateChange={onStateChange}
                     />
                 </CardMedia>
                 <CardActions>
