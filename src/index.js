@@ -7,6 +7,7 @@ import App from './App';
 import Video from './Video';
 import Home from './Home';
 import Login from './Login';
+import Feed from './Feed';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -34,10 +35,11 @@ const Navigation = (
   <MuiThemeProvider>
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={checkToken}>
-        <IndexRoute component={Home} />
+        <IndexRoute component={Feed} />
         <Route path="/video/:key" component={Video} />
       </Route>
       <Route path="/login" component={Login} />
+
     </Router>
   </MuiThemeProvider>
 );
