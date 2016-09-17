@@ -13,8 +13,13 @@ import FeedVideo from './FeedVideo';
 
 const style = {
   width: 500,
-  height: 300,
-  overflow: 'scroll'
+  margin: 'auto'
+}
+
+const opts = {
+  width: '500',
+  height: '300',
+  frameBorder: '0'
 }
 
 const Feed = React.createClass({
@@ -39,8 +44,8 @@ const Feed = React.createClass({
     var videosRef = firebase.database().ref('/videos/');
     var link = this.refs.videoLink.getValue();
     var videoId = link.includes('?v=')
-        ? link.split('?v=')[1].slice(0, 11)
-        : link.substr(link.lastIndexOf('/') + 1);
+      ? link.split('?v=')[1].slice(0, 11)
+      : link.substr(link.lastIndexOf('/') + 1);
 
     var videoRefs = videosRef.push({
       videoYouTubeId: videoId,
@@ -56,18 +61,18 @@ const Feed = React.createClass({
 
   render() {
     // var messages = this.state.messages.slice(0).reverse();
-    function renderFeedVideo(v, index) {
-      return <FeedVideo key={index} videoKey={v.id}/>
+    function renderVideoComponent(v, index) {
+      return <FeedVideo key={index} videoKey={v.id} opts={opts}/>
     }
 
     return (
       <div>
-        <Card>
+        <Card style ={style}>
           <CardHeader
-                  title="Share youtube video"
-                  subtitle="Paste video link"
-                  avatar={this.state.user.photoURL}
-                  />
+            title="Share youtube video"
+            subtitle="Paste video link"
+            avatar={this.state.user.photoURL}
+            />
           <CardMedia>
             <TextField hintText="YouTube video link" ref="videoLink" />
             <br />
@@ -77,7 +82,7 @@ const Feed = React.createClass({
           </CardMedia>
         </Card>
         <List style={style}>
-          { this.state.videos.map(renderFeedVideo) }
+          { this.state.videos.map(renderVideoComponent) }
         </List>
       </div>
     )
