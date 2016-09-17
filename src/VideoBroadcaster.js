@@ -10,7 +10,7 @@ class VideoBroadcaster extends Component {
     this.state = {
       key: props.videoKey,
       video: {},
-      videoRef: firebase.database().ref(`/videos/${props.videoKey}`)
+      videoRef: firebase.database().ref(`/broadcasts/${props.videoKey}`)
     }
   }
 
