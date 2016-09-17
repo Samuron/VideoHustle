@@ -14,7 +14,7 @@ const Like = React.createClass({
   },
 
   componentDidMount() {
-    this.state.chatRef.on( 'value', snapshot => {
+    this.state.chatRef.on('value', snapshot => {
       this.setState({ isLiked: snapshot.val().isLiked || false });
     });
   },
