@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import YouTube from './VideoContent';
+import BroadcastPlayer from './BroadcastPlayer';
 import Chat from './Chat';
 
 class VideoBroadcaster extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      key: props.videoKey,
       video: {},
-      videoRef: firebase.database().ref(`/broadcasts/${props.videoKey}`)
+      broadcastRef: firebase.database().ref(`/broadcasts/${props.broadcastId}`)
     }
   }
 
   componentDidMount() {
-    const videoRef = this.state.videoRef;
-
-    // Which one .on() or .once() ?
-    videoRef.once( 'value', snapshot => {
+    this.state.broadcastRef.once('value', snapshot => {
+      console.log(snapshot.val());
       this.setState({
         video: snapshot.val()
       });
@@ -41,45 +37,41 @@ class VideoBroadcaster extends Component {
       // if state is buffering then set previous value
       state: data == 3 ? this.state.video : data
     };
-    this.state.videoRef.update({...video});
+    this.state.broadcastRef.update({...video});
 
-    console.log( 'state was changed:', video );
-  }
+  console.log( 'state was changed:', video );
+}
 
-  onReady({ target }) {
-    this.player = target;
-    this._setVideoState(this.state.video);
-  }
+onReady({ target }) {
+  this.player = target;
+  this._setVideoState(this.state.video);
+}
 
-  render() {
-    const { video } = this.state;
+render() {
+  const { video } = this.state;
 
-    const opts = {
-      width: '500',
-      height: '300',
-      frameBorder: '0',
-      playerVars: {
-        autoPlay: 0,
-        controls: 1
-      }
-    };
+  const opts = {
+    width: '500',
+    height: '300',
+    frameBorder: '0',
+    playerVars: {
+      autoPlay: 0,
+      controls: 1
+    }
+  };
 
-    return (
-      <div>
-        { video.link ?
-          (
-            <YouTube
-              videoKey={this.state.key}
-              link={video.link}
-              opts={opts}
-              onReady={e => this.onReady(e)}
-              onStateChange={e => this.onStateChange(e)}
-            />
-          ) : null
-        }
-      </div>
-    );
-  }
+  return (
+    <div>
+      <BroadcastPlayer
+        videoId={video.videoId}
+        broadcastId={this.props.broadcastId}
+        opts={opts}
+        onReady={e => this.onReady(e) }
+        onStateChange={e => this.onStateChange(e) }
+        />
+    </div>
+  );
+}
 }
 
 export default VideoBroadcaster;

@@ -29,6 +29,10 @@ const ChatMessage = ({ time, name, message, photoUrl}) => {
 const FeedVideo = React.createClass({
     mixins: [ReactFireMixin],
 
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
+
     getInitialState() {
         return {
             videoYouTubeId: '',
@@ -61,6 +65,16 @@ const FeedVideo = React.createClass({
         this.setState({ message: '', open: true });
     },
 
+    broadcast() {
+        var brRef = firebase.database().ref('/broadcasts');
+        var inserted = brRef.push({
+            videoId: this.state.videoYouTubeId,
+            state: 0,
+            time: 0.0
+        });
+        this.context.router.push('/broadcast/' + inserted.getKey());
+    },
+
     render() {
         var messages = this.state.messages.slice(0).reverse();
         return (
@@ -88,6 +102,7 @@ const FeedVideo = React.createClass({
                         message="Your comment was added"
                         autoHideDuration={4000}
                         onRequestClose={this.handleRequestClose} />
+                    <RaisedButton onClick={this.broadcast} label="Broadcast" />
                 </CardActions>
                 <List style={{ maxHeight: 300, overflow: 'scroll' }}>
                     {messages.map((message, index) => <ChatMessage key={index} {...message} />) }
