@@ -4,31 +4,41 @@ import ReactFireMixin from 'reactfire';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import TextField from 'material-ui/TextField';
+import Avatar from 'material-ui/Avatar';
+import Snackbar from 'material-ui/Snackbar';
+import RaisedButton from 'material-ui/RaisedButton';
 
-const ChatMessage = ({ time, name, message }) => {
-  var secondaryText = <p><span style={{color: darkBlack}}>{time}</span> -- {message}</p>;
+const ChatMessage = ({ time, name, message, photoUrl}) => {
+  var secondaryText = <p><span style={{ color: darkBlack }}>{time}</span> by {name}</p>;
+  var avatar = <Avatar src={photoUrl} />;
   return (
     <div>
-    <ListItem primaryText={name} secondaryText={secondaryText}/>
-    <Divider inset={true} />
+      <ListItem leftAvatar={avatar} primaryText={message} secondaryText={secondaryText}/>
+      <Divider inset={true} />
     </div>
-    );
+  );
 };
 
 const style = {
-  width:500,
-  height:300,
-  overflow:'scroll'
+  width: 500,
+  height: 300,
+  overflow: 'scroll'
 }
 const Chat = React.createClass({
 
   mixins: [ReactFireMixin],
 
   getInitialState() {
+    var user = firebase.auth().currentUser;
+    console.log(user);
     return {
       messages: [],
       message: '',
-      chatRef: firebase.database().ref(`/chats/${this.props.videoKey}`)
+      open: false,
+      chatRef: firebase.database().ref(`/chats/${this.props.videoKey}`),
+      name: user.displayName,
+      photoUrl: user.photoURL
     };
   },
 
@@ -36,29 +46,33 @@ const Chat = React.createClass({
     this.bindAsArray(this.state.chatRef, 'messages')
   },
 
-  postMessage(e) {
-    e.preventDefault();
-
+  postMessage() {
     this.state.chatRef.push({
-      time: new Date().toDateString(),
-      message: this.state.message,
-      name: "Someone"
+      time: firebase.database.ServerValue.TIMESTAMP,
+      message: this.refs.messageText.getValue(),
+      name: this.state.name,
+      photoUrl: this.state.photoUrl
     });
-    this.setState({ message: '' });
+    this.setState({ message: '', open: true });
+  },
+
+  handleRequestClose() {
+    this.setState({ open: false });
   },
 
   render() {
     return (
       <div>
-        <form onSubmit={ e => { this.postMessage(e) } }>
-          <input
-            type="text"
-            placeholder="add message"
-            onChange={ e => this.setState({ message: e.target.value }) }
-            value={ this.state.message }/>
-          <button type="submit">Submit</button>
-        </form>
         <List style={style}>
+          <div>
+            <Avatar src={this.state.photoUrl} />
+            <TextField hintText="Your comment" ref="messageText"/>
+            <RaisedButton onClick={this.postMessage} label="Add" />
+            <Snackbar open={this.state.open}
+              message="Your comment was added"
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose} />
+          </div>
           {this.state.messages.map((message, index) => <ChatMessage key={index} {...message} />) }
         </List>
       </div>

@@ -17,7 +17,7 @@ class VideoBroadcaster extends Component {
   componentDidMount() {
     const videoRef = this.state.videoRef;
 
-    videoRef.on( 'value', snapshot => {
+    videoRef.on('value', snapshot => {
       const video = snapshot.val();
       this._setVideoState(video);
       this.setState({ video });
@@ -25,7 +25,7 @@ class VideoBroadcaster extends Component {
   }
 
   _setVideoState({ time, state }) {
-    if ( this.player ) {
+    if (this.player) {
       // sync time
       this.player.seekTo(time);
       // playing or buffering
@@ -60,10 +60,11 @@ class VideoBroadcaster extends Component {
         { video.link ?
           (
             <YouTube
+              videoKey={this.state.key}
               link={video.link}
               opts={opts}
-              onReady={e => this.onReady(e)}
-            />
+              onReady={e => this.onReady(e) }
+              />
           ) : null
         }
       </div>

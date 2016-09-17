@@ -69,6 +69,7 @@ class VideoBroadcaster extends Component {
         { video.link ?
           (
             <YouTube
+              videoKey={this.state.key}
               link={video.link}
               opts={opts}
               onReady={e => this.onReady(e)}

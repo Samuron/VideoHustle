@@ -14,8 +14,6 @@ const Video = ({ params }) => {
         <h3>Subscriber</h3>
         <VideoSubscriber videoKey={params.key} />
       </div>
-      <br style={{clear: 'both'}} />
-      <Chat videoKey={params.key} />
     </div>
   )
 };
