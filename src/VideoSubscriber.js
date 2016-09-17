@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import YouTube from './VideoContent';
+import BroadcastPlayer from './BroadcastPlayer';
 import Chat from './Chat';
 
 class VideoBroadcaster extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      key: props.videoKey,
       video: {},
-      videoRef: firebase.database().ref(`/broadcasts/${props.videoKey}`)
+      broadcastRef: firebase.database().ref(`/broadcasts/${props.broadcastId}`)
     }
   }
 
   componentDidMount() {
-    const videoRef = this.state.videoRef;
-
-    videoRef.on('value', snapshot => {
+    this.state.broadcastRef.on('value', snapshot => {
       const video = snapshot.val();
       this._setVideoState(video);
       this.setState({ video });
     });
   }
 
-  _setVideoState({ time, state }) {
+  _setVideoState({ videoId, time, state }) {
     if (this.player) {
       // sync time
       this.player.seekTo(time);
@@ -44,7 +40,6 @@ class VideoBroadcaster extends Component {
 
   render() {
     const { video } = this.state;
-
     const opts = {
       width: '500',
       height: '300',
@@ -57,16 +52,12 @@ class VideoBroadcaster extends Component {
 
     return (
       <div>
-        { video.link ?
-          (
-            <YouTube
-              videoKey={this.state.key}
-              link={video.link}
-              opts={opts}
-              onReady={e => this.onReady(e) }
-              />
-          ) : null
-        }
+        <BroadcastPlayer
+          video={video}
+          broadcastId={this.props.broadcastId}
+          opts={opts}
+          onReady={e => this.onReady(e) }
+          />
       </div>
     )
   }

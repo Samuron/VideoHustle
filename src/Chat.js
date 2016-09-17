@@ -37,7 +37,7 @@ const Chat = React.createClass({
       messages: [],
       message: '',
       open: false,
-      chatRef: firebase.database().ref(`/chats/${this.props.videoKey}`),
+      chatRef: firebase.database().ref(`/broadcasts/${this.props.broadcastId}/chat`),
       name: user.displayName,
       photoUrl: user.photoURL
     };

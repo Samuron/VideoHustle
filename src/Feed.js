@@ -69,13 +69,19 @@ const Feed = React.createClass({
   },
 
   postVideo() {
-    var videosRef = firebase.database().ref('/videos/');
     var link = this.refs.videoLink.getValue();
+
+    if (!link)
+      return;
+
     var videoId = link.includes('?v=')
       ? link.split('?v=')[1].slice(0, 11)
       : link.substr(link.lastIndexOf('/') + 1);
 
-    var videoRefs = videosRef.push({
+    if (!videoId)
+      return;
+
+    var videoRefs = firebase.database().ref('/videos/').push({
       videoYouTubeId: videoId,
       author: this.state.user.displayName,
       photoUrl: this.state.user.photoURL,
@@ -101,13 +107,17 @@ const Feed = React.createClass({
             subtitle="Paste video link"
             avatar={this.state.user.photoURL}
             />
-          <CardMedia>
+          <CardTitle title="Any cool link?"/>
+          <CardText>
             <TextField hintText="YouTube video link" ref="videoLink" />
-            <br />
+          </CardText>
+          <CardTitle title="Drop some words for ya niggas?"/>
+          <CardText>
             <TextField hintText="Add description" ref="videoDescription" />
-            <br />
+          </CardText>
+          <CardActions>
             <RaisedButton onClick={this.postVideo} label="Post" />
-          </CardMedia>
+          </CardActions>
         </Card>
         <List style={style}>
           { this.state.videos.map(renderVideoComponent) }

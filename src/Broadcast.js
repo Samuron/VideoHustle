@@ -3,19 +3,19 @@ import VideoBroadcaster from './VideoBroadcaster';
 import VideoSubscriber from './VideoSubscriber';
 import Chat from './Chat';
 
-const Video = ({ params }) => {
+const Broadcast = ({ params }) => {
   return (
     <div>
       <div style={{width: '500px', float: 'left'}}>
         <h3>Broadcaster</h3>
-        <VideoBroadcaster videoKey={params.key} />
+        <VideoBroadcaster broadcastId={params.key} />
       </div>
       <div style={{width: '500px', float: 'right'}}>
         <h3>Subscriber</h3>
-        <VideoSubscriber videoKey={params.key} />
+        <VideoSubscriber broadcastId={params.key} />
       </div>
     </div>
   )
 };
 
-export default Video;
+export default Broadcast;

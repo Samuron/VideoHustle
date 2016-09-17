@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
 import App from './App';
-import Video from './Video';
+import Broadcast from './Broadcast';
 import Home from './Home';
 import Login from './Login';
 import Feed from './Feed';
@@ -36,7 +36,7 @@ const Navigation = (
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={checkToken}>
         <IndexRoute component={Feed} />
-        <Route path="/video/:key" component={Video} />
+        <Route path="/broadcast/:key" component={Broadcast} />
       </Route>
       <Route path="/login" component={Login} />
 
