@@ -10,7 +10,8 @@ import Snackbar from 'material-ui/Snackbar';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const ChatMessage = ({ time, name, message, photoUrl}) => {
-  var secondaryText = <p><span style={{ color: darkBlack }}>{time}</span> by {name}</p>;
+  var timestamp = new Date(time);
+  var secondaryText = <p><span style={{ color: darkBlack }}>{timestamp.toDateString()}</span> by {name}</p>;
   var avatar = <Avatar src={photoUrl} />;
   return (
     <div>
@@ -31,7 +32,7 @@ const Chat = React.createClass({
 
   getInitialState() {
     var user = firebase.auth().currentUser;
-    console.log(user);
+    console.log(user.photoURL);
     return {
       messages: [],
       message: '',
@@ -43,7 +44,7 @@ const Chat = React.createClass({
   },
 
   componentDidMount() {
-    this.bindAsArray(this.state.chatRef, 'messages')
+    this.bindAsArray(this.state.chatRef.orderByChild('time').limitToFirst(100), 'messages')
   },
 
   postMessage() {
@@ -61,6 +62,7 @@ const Chat = React.createClass({
   },
 
   render() {
+    var messages = this.state.messages.slice(0).reverse();
     return (
       <div>
         <List style={style}>
@@ -73,7 +75,7 @@ const Chat = React.createClass({
               autoHideDuration={4000}
               onRequestClose={this.handleRequestClose} />
           </div>
-          {this.state.messages.map((message, index) => <ChatMessage key={index} {...message} />) }
+          {messages.map((message, index) => <ChatMessage key={index} {...message} />) }
         </List>
       </div>
     )
