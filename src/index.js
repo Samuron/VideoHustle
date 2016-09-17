@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import firebase from 'firebase'
 import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
 import App from './App';
@@ -15,6 +16,15 @@ const checkToken = (nextState, replace) => {
     replace('/login')
   }
 };
+
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDKA3OrAAbhLWV-oILlook7z9orkGRO-KQ",
+  authDomain: "videohustle-d80dd.firebaseapp.com",
+  databaseURL: "https://videohustle-d80dd.firebaseio.com",
+  storageBucket: "videohustle-d80dd.appspot.com"
+};
+
+firebase.initializeApp(FIREBASE_CONFIG);
 
 const Navigation = (
   <MuiThemeProvider>
