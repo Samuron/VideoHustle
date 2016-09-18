@@ -30,6 +30,7 @@ const App = React.createClass({
           <AppBar title="Video hustle" iconElementLeft={<IconButton onClick={this.handleNavClick}><NavigationClose /></IconButton>}/>
           <MenuItem onTouchTap={e => this.context.router.push('/feed') }>Feed</MenuItem>
           <MenuItem onTouchTap={e => this.context.router.push('/friends') }>Friends</MenuItem>
+          <MenuItem onTouchTap={e => this.context.router.push('/broadcast') }>Broadcast</MenuItem>
         </Drawer>
         <div style={{ paddingTop: this.context.muiTheme.spacing.desktopKeylineIncrement }}>
           {this.props.children}

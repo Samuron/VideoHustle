@@ -41,7 +41,7 @@ const Navigation = (
         <IndexRoute component={Feed} />
         <Route path="/feed" component={Feed}/>
         <Route path="/friends" component={Friends}/>
-        <Route path="/broadcast/:key" component={Broadcast} />
+        <Route path="/broadcast" component={Broadcast} />
       </Route>
       <Route path="/login" component={Login} />
     </Router>

@@ -97,7 +97,7 @@ const Feed = React.createClass({
   render() {
     // var messages = this.state.messages.slice(0).reverse();
     function renderVideoComponent(v, index) {
-      return <FeedVideo key={index} videoKey={v.id} opts={opts}/>
+      return <FeedVideo key={index} videoKey={v} opts={opts}/>
     }
 
     return (
