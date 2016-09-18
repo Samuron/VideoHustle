@@ -67,7 +67,7 @@ export default class SubscribtionList extends Component {
               broadcasts = []
             } else {
               broadcasts = broadcasts.filter(broadcast => {
-                return some(friends, friend => {
+                return broadcast.isActive && some(friends, friend => {
                   const key = Object.keys(friend)[0];
                   return key == broadcast.key;
                 })
