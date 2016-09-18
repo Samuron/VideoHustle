@@ -58,7 +58,7 @@ const FeedVideo = React.createClass({
         };
 
         return (
-            <VideoContent collection="videos" videoKey={this.props.videoKey} opts={opts}>
+            <VideoContent collection="videos" videoKey={this.props.videoKey} opts={opts} expanded={false}>
                 <Snackbar open={this.state.open}
                     message="Your comment was added"
                     autoHideDuration={4000}

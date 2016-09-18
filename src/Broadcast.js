@@ -77,6 +77,7 @@ const Broadcast = React.createClass({
           this.state.video ? <VideoContent
             videoKey={this.state.broadcastId}
             collection="broadcasts"
+            expanded={true}
             opts={opts}
             onReady={e => this.onReady(e) }
             onStateChange={e => this.onStateChange(e) }>

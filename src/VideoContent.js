@@ -38,7 +38,7 @@ const VideoContent = React.createClass({
             description: '',
             messages: [],
             open: false,
-            expanded: false,
+            expanded: this.props.expanded,
             chatRef: firebase.database().ref(`/${this.props.collection}/${this.props.videoKey}/chat`),
         };
     },
