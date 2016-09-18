@@ -64,11 +64,12 @@ const VideoContent = React.createClass({
     },
 
     postMessage() {
+        var user = firebase.auth().currentUser;
         this.chatRef.push({
             time: firebase.database.ServerValue.TIMESTAMP,
             message: this.state.message,
-            name: this.state.author,
-            photoUrl: this.state.photoUrl
+            name: user.displayName,
+            photoUrl: user.photoURL
         });
         this.setState({ message: '', open: true });
     },
