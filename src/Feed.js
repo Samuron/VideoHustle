@@ -102,8 +102,6 @@ const Feed = React.createClass({
 
     return (
       <div>
-        <Friends />
-        <br />
         <Card style={style}>
           <CardHeader
             title="Share youtube video"
