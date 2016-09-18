@@ -57,6 +57,7 @@ const Broadcast = React.createClass({
     this.state.broadcastRef.update({
       state: -1
     });
+    this.player.pauseVideo();
   },
 
   render() {
