@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import Chat from './Chat';
 import VideoContent from './VideoContent';
 import YouTube from 'react-youtube';
 import FlatButton from 'material-ui/FlatButton';

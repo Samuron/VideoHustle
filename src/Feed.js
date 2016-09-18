@@ -42,50 +42,50 @@ export default class Feed extends Component {
   componentDidMount() {
     this.userRef = firebase.database().ref(`/users/${this.state.user.uid}`);
     this.userRef
-      .child( 'videos' )
+      .child('videos')
       .orderByKey()
-      .limitToLast( this.state.videosCount )
-      .once( 'value', snapshot => {
+      .limitToLast(this.state.videosCount)
+      .once('value', snapshot => {
         this.isInitialDataLoaded = true;
 
-        const videos = values( snapshot.val() );
+        const videos = values(snapshot.val());
         this.setState({ videos });
       });
 
     this.userRef
-      .child( 'videos' )
+      .child('videos')
       // .limitToFirst( 1 )
-      .on( 'child_added', snapshot => {
+      .on('child_added', snapshot => {
         // dirty hack to handle updates only
         if (!this.isInitialDataLoaded) return false;
-        console.log( 'handle new values', snapshot.val() );
+        console.log('handle new values', snapshot.val());
 
-        this.state.videos.unshift( snapshot.val() );
+        this.state.videos.unshift(snapshot.val());
 
         this.setState({
           videos: this.state.videos
         });
 
-        console.log( 'videos:', this.state.videos, this.state.videos.length )
-    });
+        console.log('videos:', this.state.videos, this.state.videos.length)
+      });
   }
 
   handleScroll(e) {
     var scroll = window.document.body;
     const lastVideo = this.state.videos[this.state.videos.length - 1];
 
-    if ( !lastVideo ) return;
+    if (!lastVideo) return;
 
     if (scroll.clientHeight + scroll.scrollTop >= scroll.scrollHeight) {
       this.userRef
         .child('videos')
         .orderByKey()
-        .endAt( lastVideo.id )
-        .limitToLast( this.state.videosCount )
+        .endAt(lastVideo.id)
+        .limitToLast(this.state.videosCount)
         .once('value', snapshot => {
           // const update = snapshot
           // this.state.videos.push( snapshot.val() );
-          Array.prototype.push.apply(this.state.videos, values(snapshot.val()) );
+          Array.prototype.push.apply(this.state.videos, values(snapshot.val()));
           this.setState({
             videos: this.state.videos
           });
@@ -129,7 +129,10 @@ export default class Feed extends Component {
   }
 
   renderVideoComponent({ id }, index) {
-    return <FeedVideo key={index} videoKey={id} opts={opts} />
+    return (
+      <div style={{ marginBottom: '20px' }}>
+        <FeedVideo key={index} videoKey={id} opts={opts} />
+      </div>);
   }
 
   render() {
@@ -150,7 +153,7 @@ export default class Feed extends Component {
             <TextField hintText="Add description" ref="videoDescription" />
           </CardText>
           <CardActions>
-            <RaisedButton onClick={() => this.postVideo()} label="Post" />
+            <RaisedButton onClick={() => this.postVideo() } label="Post" />
           </CardActions>
         </Card>
         <List style={style}>

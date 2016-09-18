@@ -1,12 +1,12 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import YouTube from 'react-youtube';
-import Chat from './Chat';
 import ReactFireMixin from 'reactfire';
 import firebase from 'firebase';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 
 const ChatMessage = ({ time, name, message, photoUrl}) => {
     var timestamp = new Date(time);
