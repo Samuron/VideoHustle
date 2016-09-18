@@ -5,7 +5,6 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
 import App from './App';
 import Broadcast from './Broadcast';
-import Home from './Home';
 import Login from './Login';
 import Feed from './Feed';
 import Friends from './Friends';
@@ -41,7 +40,7 @@ const Navigation = (
         <IndexRoute component={Feed} />
         <Route path="/feed" component={Feed}/>
         <Route path="/friends" component={Friends}/>
-        <Route path="/broadcast/:key" component={Broadcast} />
+        <Route path="/broadcast" component={Broadcast} />
       </Route>
       <Route path="/login" component={Login} />
     </Router>
