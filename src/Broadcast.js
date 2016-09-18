@@ -54,8 +54,8 @@ const Broadcast = React.createClass({
 
   stopBroadcast() {
     console.log('stop broadcast');
-    this.state.broadcastRef.remove(error => {
-      this.context.router.push('/');
+    this.state.broadcastRef.update({
+      state: -1
     });
   },
 
