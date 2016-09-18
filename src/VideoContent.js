@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
+import Toggle from 'material-ui/Toggle';
 import {List, ListItem} from 'material-ui/List';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 
@@ -37,6 +38,7 @@ const VideoContent = React.createClass({
             description: '',
             messages: [],
             open: false,
+            expanded: false,
             chatRef: firebase.database().ref(`/${this.props.collection}/${this.props.videoKey}/chat`),
         };
     },
@@ -60,18 +62,33 @@ const VideoContent = React.createClass({
         this.setState({ message: '', open: true });
     },
 
-   
+    handleExpandChange(expanded) {
+        this.setState({ expanded: expanded });
+    },
+
+    handleToggle(event, toggle) {
+        this.setState({ expanded: toggle });
+    },
 
     render() {
         var messages = this.state.messages.slice(0).reverse();
         return (
-            <Card>
+            <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
                 <CardHeader
                     title={this.state.author}
                     subtitle={this.state.description}
                     avatar={this.state.photoUrl}
-                    />
-                <CardMedia>
+                    actAsExpander={true}
+                    showExpandableButton={true}/>
+                <CardText>
+                    <Toggle
+                        toggled={this.state.expanded}
+                        onToggle={this.handleToggle}
+                        labelPosition="right"
+                        label="Expand video"
+                        />
+                </CardText>
+                <CardMedia expandable={true}>
                     {
                         this.state.videoYouTubeId ? <YouTube
                             videoId={this.state.videoYouTubeId}
