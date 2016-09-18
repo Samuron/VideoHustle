@@ -96,7 +96,6 @@ const VideoContent = React.createClass({
                 <CardActions>
                     <FlatButton onClick={this.postMessage} label="Add" />
                     <FlatButton onClick={this.repostVideo} label="Repost" />
-                    <FlatButton onClick={this.postMessage} label="Add" />
                     {this.props.children}
                 </CardActions>
                 <List style={{ maxHeight: 300, overflow: 'scroll' }}>
