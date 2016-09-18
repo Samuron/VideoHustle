@@ -1,18 +1,9 @@
-import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import YouTube from 'react-youtube';
-import Chat from './Chat';
-import Toggle from 'material-ui/Toggle';
 import ReactFireMixin from 'reactfire';
 import firebase from 'firebase';
-import TextField from 'material-ui/TextField';
-import Avatar from 'material-ui/Avatar';
 import Snackbar from 'material-ui/Snackbar';
-import RaisedButton from 'material-ui/RaisedButton';
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 import VideoContent from './VideoContent';
 
 const FeedVideo = React.createClass({
@@ -36,7 +27,7 @@ const FeedVideo = React.createClass({
             var videoSnapshot = snapshot.val();
             var inserted = brRef.update({
                 videoYouTubeId: videoSnapshot.videoYouTubeId,
-                state: 0,
+                state: -1,
                 time: 0.0,
                 author: videoSnapshot.author,
                 photoUrl: videoSnapshot.photoUrl,
@@ -59,7 +50,7 @@ const FeedVideo = React.createClass({
                     message="Your comment was added"
                     autoHideDuration={4000}
                     onRequestClose={this.handleRequestClose} />
-                <RaisedButton onClick={this.broadcast} label="Broadcast" />
+                <FlatButton onClick={this.broadcast} label="Broadcast" />
             </VideoContent>
         )
     }
