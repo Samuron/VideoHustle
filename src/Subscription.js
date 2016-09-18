@@ -58,6 +58,7 @@ const Broadcast = React.createClass({
             videoKey={this.state.videoKey}
             collection="broadcasts"
             onReady={e => this.onReady(e)}
+            expanded={true}
             opts={opts} /> : null
         }
       </div>
