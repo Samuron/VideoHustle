@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import firebase from 'firebase';
 import ReactFireMixin from 'reactfire';
 import {List, ListItem} from 'material-ui/List';
@@ -12,6 +12,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FeedVideo from './FeedVideo';
 import Friends from './Friends';
 
+import { values, reverse } from 'lodash';
+// import fbutils from '../node_modules/firebase-util/dist/firebase-util.js';
+
 const style = {
   width: 500,
   margin: 'auto'
@@ -23,51 +26,72 @@ const opts = {
   frameBorder: '0'
 }
 
-const Feed = React.createClass({
+export default class Feed extends Component {
+  constructor(props) {
+    super(props);
 
-  mixins: [ReactFireMixin],
-
-  getInitialState() {
-    var user = firebase.auth().currentUser;
-    return {
-      videosCount: 1,
-      userRef: firebase.database().ref(`/users/${user.uid}`),
+    this.state = {
+      videosCount: 2,
       videos: [],
-      user: user
+      user: firebase.auth().currentUser
     };
-  },
+
+    window.onscroll = e => this.handleScroll(e)
+  }
 
   componentDidMount() {
-    this.state.userRef.child('videos').limitToFirst(this.state.videosCount).once('value', snapshot => {
-      var newVideos = [];
-      var s = snapshot.val();
-      for(var index in s) { 
-        newVideos.push(s[index].id);
-      }
-      this.setState({ videos: newVideos });
+    this.userRef = firebase.database().ref(`/users/${this.state.user.uid}`);
+    this.userRef
+      .child( 'videos' )
+      .orderByKey()
+      .limitToLast( this.state.videosCount )
+      .once( 'value', snapshot => {
+        this.isInitialDataLoaded = true;
+
+        const videos = values( snapshot.val() );
+        this.setState({ videos });
+      });
+
+    this.userRef
+      .child( 'videos' )
+      // .limitToFirst( 1 )
+      .on( 'child_added', snapshot => {
+        // dirty hack to handle updates only
+        if (!this.isInitialDataLoaded) return false;
+        console.log( 'handle new values', snapshot.val() );
+
+        this.state.videos.unshift( snapshot.val() );
+
+        this.setState({
+          videos: this.state.videos
+        });
+
+        console.log( 'videos:', this.state.videos, this.state.videos.length )
     });
-    window.onscroll = e => this.handleScroll(e);    
-  },
+  }
 
   handleScroll(e) {
-    var scroll = document.body;
+    var scroll = window.document.body;
+    const lastVideo = this.state.videos[this.state.videos.length - 1];
 
-    if(scroll.clientHeight + scroll.scrollTop >= scroll.scrollHeight) {
-      this.state.userRef.child('videos')
+    if ( !lastVideo ) return;
+
+    if (scroll.clientHeight + scroll.scrollTop >= scroll.scrollHeight) {
+      this.userRef
+        .child('videos')
         .orderByKey()
-        .startAt(this.state.videos[this.state.videos.length - 1] || '')
-        .limitToFirst(this.state.videosCount + 1)
+        .endAt( lastVideo.id )
+        .limitToLast( this.state.videosCount )
         .once('value', snapshot => {
-          console.log(snapshot.val());
-          var newVideos = [];
-          var s = snapshot.val();
-          for(var index in s) { 
-            newVideos.push(s[index].id);
-        }
-      this.setState({ videos: this.state.videos.concat(newVideos.slice(1)) });
-    });
+          // const update = snapshot
+          // this.state.videos.push( snapshot.val() );
+          Array.prototype.push.apply(this.state.videos, values(snapshot.val()) );
+          this.setState({
+            videos: this.state.videos
+          });
+        });
     }
-  },
+  }
 
   postVideo() {
     var link = this.refs.videoLink.getValue();
@@ -89,26 +113,26 @@ const Feed = React.createClass({
       description: this.refs.videoDescription.getValue()
     });
 
-    this.state.userRef.child('friends').once('value', s => {
-      s.val().map(e => Object.keys(e)[0]).forEach(id => {
-        var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
-        friendRef.push({
-          id: videoRefs.getKey()
-        });
-      })
-    })
+    this.
+      userRef.child('friends').once('value', s => {
+        s.val().map(e => Object.keys(e)[0]).forEach(id => {
+          var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
+          friendRef.push({
+            id: videoRefs.getKey()
+          });
+        })
+      });
 
-    this.state.userRef.child('videos').push({
-      id: videoRefs.getKey()
-    });
-  },
+    this.userRef
+      .child('videos')
+      .push({ id: videoRefs.getKey() });
+  }
+
+  renderVideoComponent({ id }, index) {
+    return <FeedVideo key={index} videoKey={id} opts={opts} />
+  }
 
   render() {
-    // var messages = this.state.messages.slice(0).reverse();
-    function renderVideoComponent(v, index) {
-      return <FeedVideo key={index} videoKey={v} opts={opts}/>
-    }
-
     return (
       <div>
         <Card style={style}>
@@ -126,15 +150,13 @@ const Feed = React.createClass({
             <TextField hintText="Add description" ref="videoDescription" />
           </CardText>
           <CardActions>
-            <RaisedButton onClick={this.postVideo} label="Post" />
+            <RaisedButton onClick={() => this.postVideo()} label="Post" />
           </CardActions>
         </Card>
         <List style={style}>
-          { this.state.videos.map(renderVideoComponent) }
+          { this.state.videos.map(this.renderVideoComponent) }
         </List>
       </div>
     )
   }
-});
-
-export default Feed;
+};
