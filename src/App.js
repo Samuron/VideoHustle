@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
+import firebase from 'firebase';
+import { AppBar, Drawer, MenuItem, IconButton } from 'material-ui/';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 const App = React.createClass({
@@ -28,9 +26,10 @@ const App = React.createClass({
           />
         <Drawer open={this.state.open}>
           <AppBar title="Video hustle" iconElementLeft={<IconButton onClick={this.handleNavClick}><NavigationClose /></IconButton>}/>
-          <MenuItem onTouchTap={e => this.context.router.push('/feed') }>Feed</MenuItem>
-          <MenuItem onTouchTap={e => this.context.router.push('/friends') }>Friends</MenuItem>
-          <MenuItem onTouchTap={e => this.context.router.push('/broadcast') }>Broadcast</MenuItem>
+          <MenuItem onClick={e => this.context.router.push('/feed') }>Feed</MenuItem>
+          <MenuItem onClick={e => this.context.router.push('/friends') }>Friends</MenuItem>
+          <MenuItem onClick={e => this.context.router.push('/broadcast') }>Broadcast</MenuItem>
+          <MenuItem onClick={e => firebase.auth().signOut() }>Sign out</MenuItem>
         </Drawer>
         <div style={{ paddingTop: this.context.muiTheme.spacing.desktopKeylineIncrement }}>
           {this.props.children}
