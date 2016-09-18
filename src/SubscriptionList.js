@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import firebase from 'firebase';
 import { reduce, some } from 'lodash';
 
 const styles = {
   container: {
-    width: '1010px',
-    margin: '20px auto'
+    width: '500px',
+    margin: 'auto'
   },
   item: {
-    width: '230px',
-    float: 'left',
-    marginLeft: '20px'
+    marginBottom: '20px'
   }
 };
 const SubscribeCard = ({ description, author, photoUrl, onClick }) => (
@@ -23,7 +21,10 @@ const SubscribeCard = ({ description, author, photoUrl, onClick }) => (
       avatar={photoUrl}
     />
     <CardActions>
-      <FlatButton label="Open" onClick={e => onClick()} />
+      <RaisedButton label="Open translation"
+                    onClick={e => onClick()}
+                    primary={true}
+                    fullWidth={true} />
     </CardActions>
   </Card>
 );
