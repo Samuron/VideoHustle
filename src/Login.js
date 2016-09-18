@@ -31,7 +31,10 @@ export default class Login extends Component {
         console.log( 'auth:', response );
         this.context.router.push('/');
         console.log(response.user.uid);
-        refs.ref(`/users/${response.user.uid}`).update({ displayName: response.user.displayName });
+        refs.ref(`/users/${response.user.uid}`).update({ 
+          displayName: response.user.displayName, 
+          photoUrl: response.user.photoUrl 
+        });
       })
       .catch(console.error)
   }

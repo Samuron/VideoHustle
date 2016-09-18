@@ -28,7 +28,6 @@ const Friends = React.createClass({
   },
 
   componentDidMount() {
-    // this.bindAsObject(this.state.userRef.child('friends').limitToFirst(10), 'friendsList');
     this.state.userRef.child('friends').limitToFirst(10).on('value', snapshot => {
       snapshot.val().forEach( (e, index) => {
         this.state.usersRef.orderByKey().equalTo(e).once('value', s => {
@@ -41,15 +40,27 @@ const Friends = React.createClass({
     })
   },
 
+  findFriend(value) {
+    this.state.usersRef
+      .orderByChild('displayName')
+      .startAt(value)
+      .limitToFirst(3).once('value', s => {
+        this.setState({ newFriendSuggestion: 
+          Object.keys(s.val()).map( key => {return {[key]: s.val()[key]} } )
+        })
+      })
+  },
+
   addFriend() {
-    this.setState({});
+    this.findFriend();
     this.state.userRef.update({friends: ['wklDSouesTZGT9CUrAztiLHKmiv2']});
   },
 
   render() {
-    function renderFriendList(v, index) {
+    function renderFriends(v, index) {
       var friendId = Object.keys(v)[0];
-      return <ListItem key={index} primaryText={v[friendId].displayName} />
+      var avatar = <Avatar src={v[friendId].photoUrl} />;
+      return <ListItem key={index} leftAvatar={avatar} primaryText={v[friendId].displayName} />
     }
     
     return (
@@ -57,13 +68,16 @@ const Friends = React.createClass({
         <Card style={style}>
           <CardTitle title="Whanna find a new friend?"/>
           <CardText>
-            <TextField hintText="Friends name" ref="newFriend" />
+            <TextField 
+              hintText="Friends name" 
+              onChange={(event, index, value) => this.findFriend(index)}/>
           </CardText>
+            { this.state.newFriendSuggestion.map(renderFriends) }
           <CardActions>
             <RaisedButton onClick={this.addFriend} label="Add Friend" />
           </CardActions>
           <CardTitle title="Old buddies"/> 
-            { this.state.friendsList.map(renderFriendList) }
+            { this.state.friendsList.map(renderFriends) }
         </Card>
       </div>
     )

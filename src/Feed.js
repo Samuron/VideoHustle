@@ -55,7 +55,7 @@ const Feed = React.createClass({
     if(scroll.clientHeight + scroll.scrollTop >= scroll.scrollHeight) {
       this.state.userRef.child('videos')
         .orderByKey()
-        .startAt(this.state.videos[this.state.videos.length - 1])
+        .startAt(this.state.videos[this.state.videos.length - 1] || '')
         .limitToFirst(this.state.videosCount + 1)
         .once('value', snapshot => {
           console.log(snapshot.val());
