@@ -8,9 +8,12 @@ import Broadcast from './Broadcast';
 import Home from './Home';
 import Login from './Login';
 import Feed from './Feed';
+import Friends from './Friends';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
+injectTapEventPlugin();
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyDKA3OrAAbhLWV-oILlook7z9orkGRO-KQ",
   authDomain: "videohustle-d80dd.firebaseapp.com",
@@ -21,8 +24,8 @@ const FIREBASE_CONFIG = {
 firebase.initializeApp(FIREBASE_CONFIG);
 
 const checkToken = (nextState, replace, next) => {
-  firebase.auth().onAuthStateChanged( user => {
-    if ( !user ) {
+  firebase.auth().onAuthStateChanged(user => {
+    if (!user) {
       replace('/login');
       next();
     } else {
@@ -36,10 +39,11 @@ const Navigation = (
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={checkToken}>
         <IndexRoute component={Feed} />
+        <Route path="/feed" component={Feed}/>
+        <Route path="/friends" component={Friends}/>
         <Route path="/broadcast/:key" component={Broadcast} />
       </Route>
       <Route path="/login" component={Login} />
-
     </Router>
   </MuiThemeProvider>
 );
