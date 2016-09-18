@@ -31,16 +31,15 @@ const VideoContent = React.createClass({
     },
 
     getInitialState() {
-        return {
-            videoYouTubeId: '',
-            author: '',
-            photoUrl: '',
-            description: '',
-            messages: [],
-            open: false,
-            expanded: this.props.expanded,
-            chatRef: firebase.database().ref(`/${this.props.collection}/${this.props.videoKey}/chat`),
-        };
+      return {
+          videoYouTubeId: '',
+          author: '',
+          photoUrl: '',
+          description: '',
+          messages: [],
+          open: false,
+          expanded: this.props.expanded
+      };
     },
 
     componentDidMount() {
@@ -54,20 +53,20 @@ const VideoContent = React.createClass({
 
     subscribeOnUpdates(collection, videoKey) {
       const videoRef = firebase.database().ref(`/${collection}/${videoKey}`);
-      const chatRef = firebase.database().ref(`/${collection}/${videoKey}/chat`);
+      this.chatRef = firebase.database().ref(`/${collection}/${videoKey}/chat`);
 
       videoRef.once('value', snapshot => {
         const s = snapshot.val();
         this.setState(s);
       });
 
-      this.bindAsArray(chatRef.orderByChild('time').limitToFirst(100), 'messages');
+      this.bindAsArray(this.chatRef.orderByChild('time').limitToFirst(100), 'messages');
     },
 
     postMessage() {
-        this.state.chatRef.push({
+        this.chatRef.push({
             time: firebase.database.ServerValue.TIMESTAMP,
-            message: this.refs.messageText.getValue(),
+            message: this.state.message,
             name: this.state.author,
             photoUrl: this.state.photoUrl
         });
@@ -112,7 +111,11 @@ const VideoContent = React.createClass({
                 </CardMedia>
                 <CardTitle title="Comment" subtitle="What do you think about this video?" />
                 <CardText>
-                    <TextField hintText="Your comment" ref="messageText"/>
+                    <TextField
+                      hintText="Your comment"
+                      value={this.state.message}
+                      onChange={e => this.setState({ message: e.target.value })}
+                    />
                 </CardText>
                 <CardActions>
                     <FlatButton onClick={this.postMessage} label="Add" primary={true}/>
