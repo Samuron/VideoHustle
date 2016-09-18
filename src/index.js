@@ -8,6 +8,8 @@ import Broadcast from './Broadcast';
 import Login from './Login';
 import Feed from './Feed';
 import Friends from './Friends';
+import SubscriptionList from './SubscriptionList';
+import Subscription from './Subscription';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -41,6 +43,8 @@ const Navigation = (
         <Route path="/feed" component={Feed}/>
         <Route path="/friends" component={Friends}/>
         <Route path="/broadcast" component={Broadcast} />
+        <Route path="/subscription" component={SubscriptionList} />
+        <Route path="/subscription/:videoKey" component={Subscription} />
       </Route>
       <Route path="/login" component={Login} />
     </Router>

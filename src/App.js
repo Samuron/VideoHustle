@@ -43,6 +43,11 @@ const App = React.createClass({
             Broadcast
           </MenuItem>
           <MenuItem
+            onClick={e => this.context.router.push('/subscription') }
+            leftIcon={<FontIcon className="fa fa-users"/>}>
+            Subscriptions
+          </MenuItem>
+          <MenuItem
             onClick={e => firebase.auth().signOut() }
             leftIcon={<FontIcon className="fa fa-sign-out"/>}>
             Sign out

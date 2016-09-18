@@ -73,7 +73,7 @@ const Friends = React.createClass({
     var friendRef = firebase.database().ref(`/users/${newFriendId}`).child('friends')
     friendRef.once("value", s => {
       var userData = {[this.state.user.uid]: {
-        displayName: this.state.user.displayName, 
+        displayName: this.state.user.displayName,
         photoUrl: (this.state.photoUrl || '')
       }};
       var a = {[s.numChildren()]: userData};
@@ -85,9 +85,9 @@ const Friends = React.createClass({
   renderNewFriends(f, index) {
     var friendId = Object.keys(f)[0];
     var avatar = <Avatar src={f[friendId].photoUrl} />;
-    return <ListItem key={index} 
-            leftAvatar={avatar} 
-            primaryText={f[friendId].displayName} 
+    return <ListItem key={index}
+            leftAvatar={avatar}
+            primaryText={f[friendId].displayName}
             onTouchTap={(e) => this.addFriend(f) }/>
   },
 
@@ -103,14 +103,14 @@ const Friends = React.createClass({
         <Card style={style}>
           <CardTitle title="Whanna find a new friend?"/>
           <CardText>
-            <TextField 
+            <TextField
               hintText="Friends name"
-              ref="friendSearch" 
-              value={this.state.searchText}             
+              ref="friendSearch"
+              value={this.state.searchText}
               onChange={(event) => this.findFriend(event.target.value)}/>
           </CardText>
             { this.state.newFriendSuggestion.map(e => this.renderNewFriends(e)) }
-          <CardTitle title="Old buddies"/> 
+          <CardTitle title="Old buddies"/>
             { this.state.friendsList.map(this.renderFriends) }
         </Card>
       </div>
