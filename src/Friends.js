@@ -67,6 +67,7 @@ const Friends = React.createClass({
   addFriend(f) {
     var newFriendId = Object.keys(f)[0];
     delete f[newFriendId].videos
+    delete f[newFriendId].friends
     this.state.userRef.child('friends').update({[this.state.friendsList.length]: f});
     this.state.newFriendSuggestion = this.state.newFriendSuggestion.filter(e => {Object.keys(e)[0] == newFriendId});
     var friendRef = firebase.database().ref(`/users/${newFriendId}`).child('friends')

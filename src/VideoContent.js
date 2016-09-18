@@ -34,6 +34,7 @@ const VideoContent = React.createClass({
     },
 
     getInitialState() {
+        var user = firebase.auth().currentUser;
         return {
             videoYouTubeId: '',
             author: '',
@@ -42,6 +43,7 @@ const VideoContent = React.createClass({
             messages: [],
             open: false,
             chatRef: firebase.database().ref(`/${this.props.collection}/${this.props.videoKey}/chat`),
+            friendsRef: firebase.database().ref(`/users/${user.uid}`).child('friends')
         };
     },
 
@@ -64,6 +66,16 @@ const VideoContent = React.createClass({
             photoUrl: this.state.photoUrl,
         });
         this.setState({ message: '', open: true });
+    },
+
+    repostVideo() {
+      var videoId = this.props.videoKey;
+      this.state.friendsRef.once('value', s => {
+        s.val().map(e => Object.keys(e)[0]).forEach(id => {
+          var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
+          friendRef.push({id: videoId});
+        })
+      })
     },
 
     render() {
@@ -90,6 +102,7 @@ const VideoContent = React.createClass({
                 </CardText>
                 <CardActions>
                     <RaisedButton onClick={this.postMessage} label="Add" />
+                    <RaisedButton onClick={this.repostVideo} label="Repost" />
                     {this.props.children}
                 </CardActions>
                 <List style={{ maxHeight: 300, overflow: 'scroll' }}>
