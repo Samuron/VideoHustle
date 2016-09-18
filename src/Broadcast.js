@@ -55,9 +55,10 @@ const Broadcast = React.createClass({
   stopBroadcast() {
     console.log('stop broadcast');
     this.state.broadcastRef.update({
-      state: -1
+      time: 0,
+      state: 2
     });
-    this.player.pauseVideo();
+    this._setVideoState(0, 2);
   },
 
   render() {
