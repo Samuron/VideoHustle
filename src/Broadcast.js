@@ -56,7 +56,8 @@ const Broadcast = React.createClass({
     console.log('stop broadcast');
     this.state.broadcastRef.update({
       time: 0,
-      state: 2
+      state: 2,
+      isActive: false
     });
     this._setVideoState(0, 2);
   },

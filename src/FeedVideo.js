@@ -30,6 +30,7 @@ const FeedVideo = React.createClass({
                 videoYouTubeId: videoSnapshot.videoYouTubeId,
                 state: -1,
                 time: 0.0,
+                isActive: true,
                 author: user.displayName,
                 photoUrl: user.photoURL,
                 description: videoSnapshot.description
