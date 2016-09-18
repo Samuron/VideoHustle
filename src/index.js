@@ -5,7 +5,6 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
 import App from './App';
 import Broadcast from './Broadcast';
-import Home from './Home';
 import Login from './Login';
 import Feed from './Feed';
 import Friends from './Friends';
