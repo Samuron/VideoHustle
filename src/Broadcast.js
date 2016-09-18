@@ -19,9 +19,13 @@ const Broadcast = React.createClass({
   },
 
   componentDidMount() {
-    var b = this.state.broadcastRef;
-    b.once('value', snapshot => this.setState({ video: snapshot.val() }));
-    b.onDisconnect().update({ state: 2 });
+    this.state.broadcastRef
+      .once('value', snapshot => this.setState({ video: snapshot.val() }));
+
+    if (this.state.video) {
+      this.state.broadcastRef
+        .onDisconnect().update({ state: 2 });
+    }
   },
 
   _setVideoState({ time, state }) {
