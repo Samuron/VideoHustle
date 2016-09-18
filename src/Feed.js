@@ -10,6 +10,7 @@ import Snackbar from 'material-ui/Snackbar';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FeedVideo from './FeedVideo';
+import Friends from './Friends';
 
 const style = {
   width: 500,
@@ -101,7 +102,9 @@ const Feed = React.createClass({
 
     return (
       <div>
-        <Card style ={style}>
+        <Friends />
+        <br />
+        <Card style={style}>
           <CardHeader
             title="Share youtube video"
             subtitle="Paste video link"

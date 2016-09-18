@@ -24,13 +24,14 @@ export default class Login extends Component {
 
   auth( providerName ) {
     const provider = this[providerName];
-    var userRefs = firebase.database().ref('/users');
+    var refs = firebase.database()
     firebase.auth()
       .signInWithPopup(provider)
       .then(response => {
         console.log( 'auth:', response );
         this.context.router.push('/');
-        userRefs.push({ displayName: response.user.displayName });
+        console.log(response.user.uid);
+        refs.ref(`/users/${response.user.uid}`).update({ displayName: response.user.displayName });
       })
       .catch(console.error)
   }
