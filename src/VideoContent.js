@@ -44,12 +44,24 @@ const VideoContent = React.createClass({
     },
 
     componentDidMount() {
-        const videoRef = firebase.database().ref(`/${this.props.collection}/${this.props.videoKey}`);
-        videoRef.once('value', snapshot => {
-            const s = snapshot.val();
-            this.setState(s);
-        });
-        this.bindAsArray(this.state.chatRef.orderByChild('time').limitToFirst(100), 'messages');
+      this.subscribeOnUpdates( this.props.collection, this.props.videoKey );
+    },
+
+    componentWillReceiveProps({ videoKey }) {
+      this.unbind( 'messages' );
+      this.subscribeOnUpdates( this.props.collection, videoKey );
+    },
+
+    subscribeOnUpdates(collection, videoKey) {
+      const videoRef = firebase.database().ref(`/${collection}/${videoKey}`);
+      const chatRef = firebase.database().ref(`/${collection}/${videoKey}/chat`);
+
+      videoRef.once('value', snapshot => {
+        const s = snapshot.val();
+        this.setState(s);
+      });
+
+      this.bindAsArray(chatRef.orderByChild('time').limitToFirst(100), 'messages');
     },
 
     postMessage() {
@@ -57,7 +69,7 @@ const VideoContent = React.createClass({
             time: firebase.database.ServerValue.TIMESTAMP,
             message: this.refs.messageText.getValue(),
             name: this.state.author,
-            photoUrl: this.state.photoUrl,
+            photoUrl: this.state.photoUrl
         });
         this.setState({ message: '', open: true });
     },

@@ -14,16 +14,14 @@ const FeedVideo = React.createClass({
     },
 
     getInitialState() {
-        var user = firebase.auth().currentUser;
+        this.user = firebase.auth().currentUser;
         return {
-            open: false,
-            chatRef: firebase.database().ref(`/chats/${this.props.videoKey}`),
-            friendsRef: firebase.database().ref(`/users/${user.uid}`).child('friends')
+            open: false
         };
     },
 
     broadcast() {
-        var user = firebase.auth().currentUser;
+        var user = this.user;
         var brRef = firebase.database().ref('/broadcasts/' + user.uid);
         console.log('state:', this.state);
         firebase.database().ref('/videos/' + this.props.videoKey).once('value', snapshot => {
@@ -41,12 +39,17 @@ const FeedVideo = React.createClass({
     },
 
     repostVideo() {
-        var videoId = this.props.videoKey;
-        this.state.friendsRef.once('value', s => {
-            s.val().map(e => Object.keys(e)[0]).forEach(id => {
-                var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
-                friendRef.push({ id: videoId });
-            })
+      var user = this.user;
+      firebase.database()
+        .ref(`/users/${user.uid}`)
+        .child('friends')
+        .once('value', s => {
+          s.val().map(e => Object.keys(e)[0]).forEach(id => {
+              firebase.database()
+                .ref(`/users/${id}`)
+                .child('videos')
+                .push({ id: this.props.videoKey });
+          })
         })
     },
 
