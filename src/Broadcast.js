@@ -80,7 +80,7 @@ const Broadcast = React.createClass({
             opts={opts}
             onReady={e => this.onReady(e) }
             onStateChange={e => this.onStateChange(e) }>
-            <FlatButton onClick={this.stopBroadcast} label="Stop" />
+            <FlatButton onClick={this.stopBroadcast} label="Stop" secondary={true} />
           </VideoContent> : null
         }
       </div>

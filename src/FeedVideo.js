@@ -14,14 +14,16 @@ const FeedVideo = React.createClass({
     },
 
     getInitialState() {
+        var user = firebase.auth().currentUser;
         return {
             open: false,
             chatRef: firebase.database().ref(`/chats/${this.props.videoKey}`),
+            friendsRef: firebase.database().ref(`/users/${user.uid}`).child('friends')
         };
     },
 
     broadcast() {
-        var user =  firebase.auth().currentUser;
+        var user = firebase.auth().currentUser;
         var brRef = firebase.database().ref('/broadcasts/' + user.uid);
         console.log('state:', this.state);
         firebase.database().ref('/videos/' + this.props.videoKey).once('value', snapshot => {
@@ -38,6 +40,16 @@ const FeedVideo = React.createClass({
         });
     },
 
+    repostVideo() {
+        var videoId = this.props.videoKey;
+        this.state.friendsRef.once('value', s => {
+            s.val().map(e => Object.keys(e)[0]).forEach(id => {
+                var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
+                friendRef.push({ id: videoId });
+            })
+        })
+    },
+
     render() {
         const opts = {
             width: '500',
@@ -51,6 +63,7 @@ const FeedVideo = React.createClass({
                     message="Your comment was added"
                     autoHideDuration={4000}
                     onRequestClose={this.handleRequestClose} />
+                <FlatButton onClick={this.repostVideo} label="Repost" secondary={true}/>
                 <FlatButton onClick={this.broadcast} label="Broadcast" />
             </VideoContent>
         )
