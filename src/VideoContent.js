@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import YouTube from 'react-youtube';
 import Chat from './Chat';
-import Toggle from 'material-ui/Toggle';
 import ReactFireMixin from 'reactfire';
 import firebase from 'firebase';
 import TextField from 'material-ui/TextField';
-import Avatar from 'material-ui/Avatar';
-import Snackbar from 'material-ui/Snackbar';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 
 const ChatMessage = ({ time, name, message, photoUrl}) => {
     var timestamp = new Date(time);
@@ -48,11 +42,9 @@ const VideoContent = React.createClass({
     },
 
     componentDidMount() {
-        console.log('vide content props', this.props)
         const videoRef = firebase.database().ref(`/${this.props.collection}/${this.props.videoKey}`);
         videoRef.once('value', snapshot => {
             const s = snapshot.val();
-            console.log('video content snapshot', s);
             this.setState(s);
         });
         this.bindAsArray(this.state.chatRef.orderByChild('time').limitToFirst(100), 'messages');
@@ -79,7 +71,6 @@ const VideoContent = React.createClass({
     },
 
     render() {
-        console.log('render content', this.state)
         var messages = this.state.messages.slice(0).reverse();
         return (
             <Card>
@@ -89,20 +80,23 @@ const VideoContent = React.createClass({
                     avatar={this.state.photoUrl}
                     />
                 <CardMedia>
-                    <YouTube
-                        videoId={this.state.videoYouTubeId}
-                        opts={this.props.opts}
-                        onReady={this.props.onReady}
-                        onStateChange={this.props.onStateChange}
-                        />
+                    {
+                        this.state.videoYouTubeId ? <YouTube
+                            videoId={this.state.videoYouTubeId}
+                            opts={this.props.opts}
+                            onReady={this.props.onReady}
+                            onStateChange={this.props.onStateChange}
+                            /> : null
+                    }
                 </CardMedia>
                 <CardTitle title="Comment" subtitle="What do you think about this video?" />
                 <CardText>
                     <TextField hintText="Your comment" ref="messageText"/>
                 </CardText>
                 <CardActions>
-                    <RaisedButton onClick={this.postMessage} label="Add" />
-                    <RaisedButton onClick={this.repostVideo} label="Repost" />
+                    <FlatButton onClick={this.postMessage} label="Add" />
+                    <FlatButton onClick={this.repostVideo} label="Repost" />
+                    <FlatButton onClick={this.postMessage} label="Add" />
                     {this.props.children}
                 </CardActions>
                 <List style={{ maxHeight: 300, overflow: 'scroll' }}>
