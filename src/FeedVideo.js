@@ -21,7 +21,8 @@ const FeedVideo = React.createClass({
     },
 
     broadcast() {
-        var brRef = firebase.database().ref('/broadcasts/' + firebase.auth().currentUser.uid);
+        var user =  firebase.auth().currentUser;
+        var brRef = firebase.database().ref('/broadcasts/' + user.uid);
         console.log('state:', this.state);
         firebase.database().ref('/videos/' + this.props.videoKey).once('value', snapshot => {
             var videoSnapshot = snapshot.val();
@@ -29,8 +30,8 @@ const FeedVideo = React.createClass({
                 videoYouTubeId: videoSnapshot.videoYouTubeId,
                 state: -1,
                 time: 0.0,
-                author: videoSnapshot.author,
-                photoUrl: videoSnapshot.photoUrl,
+                author: user.displayName,
+                photoUrl: user.photoURL,
                 description: videoSnapshot.description
             });
             this.context.router.push('/broadcast');

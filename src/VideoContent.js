@@ -5,6 +5,8 @@ import ReactFireMixin from 'reactfire';
 import firebase from 'firebase';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import Avatar from 'material-ui/Avatar';
+import Divider from 'material-ui/Divider';
 import {List, ListItem} from 'material-ui/List';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 
@@ -61,13 +63,13 @@ const VideoContent = React.createClass({
     },
 
     repostVideo() {
-      var videoId = this.props.videoKey;
-      this.state.friendsRef.once('value', s => {
-        s.val().map(e => Object.keys(e)[0]).forEach(id => {
-          var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
-          friendRef.push({id: videoId});
+        var videoId = this.props.videoKey;
+        this.state.friendsRef.once('value', s => {
+            s.val().map(e => Object.keys(e)[0]).forEach(id => {
+                var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
+                friendRef.push({ id: videoId });
+            })
         })
-      })
     },
 
     render() {
