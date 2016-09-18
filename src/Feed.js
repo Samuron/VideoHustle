@@ -89,6 +89,15 @@ const Feed = React.createClass({
       description: this.refs.videoDescription.getValue()
     });
 
+    this.state.userRef.child('friends').once('value', s => {
+      s.val().map(e => Object.keys(e)[0]).forEach(id => {
+        var friendRef = firebase.database().ref(`/users/${id}`).child('videos')
+        friendRef.push({
+          id: videoRefs.getKey()
+        });
+      })
+    })
+
     this.state.userRef.child('videos').push({
       id: videoRefs.getKey()
     });
