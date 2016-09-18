@@ -50,8 +50,8 @@ export default class Feed extends Component {
         // this.isInitialDataLoaded = true;
         const value = snapshot.val();
 
-        console.log( 'value', value );
-        const videos = reverse(values( value.videos ));
+        console.log('value', value);
+        const videos = reverse(values(value.videos));
         this.setState({ videos });
       });
 
@@ -133,7 +133,9 @@ export default class Feed extends Component {
 
   renderVideoComponent({ id }, index) {
     return (
-      <FeedVideo key={index} videoKey={id} style={{ marginBottom: '20px' }} opts={opts} />
+      <div style={{ marginBottom: 20 }}>
+        <FeedVideo key={index} videoKey={id} opts={opts} />
+      </div>
     );
   }
 
@@ -159,7 +161,7 @@ export default class Feed extends Component {
           </CardActions>
         </Card>
         <List style={style}>
-          {this.state.videos.map(this.renderVideoComponent)}
+          {this.state.videos.map(this.renderVideoComponent) }
         </List>
       </div>
     )
