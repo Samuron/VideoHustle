@@ -21,63 +21,96 @@ const Friends = React.createClass({
     var user = firebase.auth().currentUser;
     return {
       friendsList: [],
+      user: user,
       userRef: firebase.database().ref(`/users/${user.uid}`),
       usersRef: firebase.database().ref('/users'),
-      newFriendSuggestion: []
+      newFriendSuggestion: [],
+      searchText: ''
     };
   },
 
   componentDidMount() {
     this.state.userRef.child('friends').limitToFirst(10).on('value', snapshot => {
-      snapshot.val().forEach( (e, index) => {
-        this.state.usersRef.orderByKey().equalTo(e).once('value', s => {
-          if(!this.state.friendsList.includes(s.val())) {
+      var friends = snapshot.val() || [];
+      var friendsIds = this.state.friendsList.map(e => Object.keys(e)[0]);
+      friends.forEach( (e, index) => {
+        var friend = Object.keys(e)[0]
+        if (!friendsIds.includes(friend)) {
+          this.state.usersRef.orderByKey().equalTo(friend).once('value', s => {
             this.state.friendsList.push(s.val());
             this.setState({});
-          }
-        })
+          })
+        }
       })
     })
   },
 
   findFriend(value) {
-    this.state.usersRef
+    this.setState({searchText: value});
+    if (value != '') {
+      var friendsIds = this.state.friendsList.map(e => Object.keys(e)[0]);
+      friendsIds.push(this.state.user.uid);
+      this.state.usersRef
       .orderByChild('displayName')
       .startAt(value)
       .limitToFirst(3).once('value', s => {
-        this.setState({ newFriendSuggestion: 
-          Object.keys(s.val()).map( key => {return {[key]: s.val()[key]} } )
-        })
+        var search = Object.keys(s.val()).map( key => {return {[key]: s.val()[key]} } );
+        search = search.filter(e => {return !friendsIds.includes(Object.keys(e)[0])})
+        this.setState({ newFriendSuggestion: search})
       })
-  },
-
-  addFriend() {
-    this.findFriend();
-    this.state.userRef.update({friends: ['wklDSouesTZGT9CUrAztiLHKmiv2']});
-  },
-
-  render() {
-    function renderFriends(v, index) {
-      var friendId = Object.keys(v)[0];
-      var avatar = <Avatar src={v[friendId].photoUrl} />;
-      return <ListItem key={index} leftAvatar={avatar} primaryText={v[friendId].displayName} />
+    } else {
+      this.setState({newFriendSuggestion : []});
     }
-    
+
+  },
+
+  addFriend(f) {
+    var newFriendId = Object.keys(f)[0];
+    delete f[newFriendId].videos
+    this.state.userRef.child('friends').update({[this.state.friendsList.length]: f});
+    this.state.newFriendSuggestion = this.state.newFriendSuggestion.filter(e => {Object.keys(e)[0] == newFriendId});
+    var friendRef = firebase.database().ref(`/users/${newFriendId}`).child('friends')
+    friendRef.once("value", s => {
+      var userData = {[this.state.user.uid]: {
+        displayName: this.state.user.displayName, 
+        photoUrl: (this.state.photoUrl || '')
+      }};
+      var a = {[s.numChildren()]: userData};
+      friendRef.update(a);
+    })
+    this.setState({searchText: ''});
+  },
+
+  renderNewFriends(f, index) {
+    var friendId = Object.keys(f)[0];
+    var avatar = <Avatar src={f[friendId].photoUrl} />;
+    return <ListItem key={index} 
+            leftAvatar={avatar} 
+            primaryText={f[friendId].displayName} 
+            onTouchTap={(e) => this.addFriend(f) }/>
+  },
+
+  renderFriends(v, index) {
+    var friendId = Object.keys(v)[0];
+    var avatar = <Avatar src={v[friendId].photoUrl} />;
+    return <ListItem key={index} leftAvatar={avatar} primaryText={v[friendId].displayName} disabled={true} />
+  },
+
+  render(e) {
     return (
       <div>
         <Card style={style}>
           <CardTitle title="Whanna find a new friend?"/>
           <CardText>
             <TextField 
-              hintText="Friends name" 
-              onChange={(event, index, value) => this.findFriend(index)}/>
+              hintText="Friends name"
+              ref="friendSearch" 
+              value={this.state.searchText}             
+              onChange={(event) => this.findFriend(event.target.value)}/>
           </CardText>
-            { this.state.newFriendSuggestion.map(renderFriends) }
-          <CardActions>
-            <RaisedButton onClick={this.addFriend} label="Add Friend" />
-          </CardActions>
+            { this.state.newFriendSuggestion.map(e => this.renderNewFriends(e)) }
           <CardTitle title="Old buddies"/> 
-            { this.state.friendsList.map(renderFriends) }
+            { this.state.friendsList.map(this.renderFriends) }
         </Card>
       </div>
     )
